@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import {Button, Modal, ModalHeader, ModalBody, Form, FormGroup, Label, Input} from 'reactstrap';
 import { connect } from 'react-redux';
 import { addItem } from '../actions/itemActions';    
-
+import PropTypes from 'prop-types';
 
 
 class ItemModal extends Component {
@@ -10,19 +10,23 @@ class ItemModal extends Component {
     state = {
         modal: false,
         name: ''
-    }
+    };
+
+    static propTypes = {
+        isAuthenticated: PropTypes.bool
+    };
 
     toggle = () => {
         this.setState({
             modal: !this.state.modal
         });
-    }
+    };
 
     onChange = (e) => {
         this.setState({
             [e.target.name]: e.target.value
         });
-    }
+    };
 
     onSubmit = (e) => {
         e.preventDefault();
@@ -35,11 +39,12 @@ class ItemModal extends Component {
 
         //Close the Modal
         this.toggle();
-    }
+    };
 
     render() {
         return (
             <div>
+                {this.props.isAuthenticated ? 
                 <Button
                 color = "dark"
                 style = {{marginBottom: '2rem'}}
@@ -47,6 +52,12 @@ class ItemModal extends Component {
                 >
                     Add Item
                 </Button>
+                :
+                 <h4 className="mb-3 ml-4">
+                     Please login to manage items
+                 </h4>
+                }
+                
 
                 <Modal isOpen = {this.state.modal} toggle = {this.toggle}>
                     <ModalHeader toggle ={this.toggle}>
@@ -86,7 +97,8 @@ class ItemModal extends Component {
 }
 
 const mapStateToProps = state => ({
-    item: state.item 
+    item: state.item,
+    isAuthenticated: state.auth.isAuthenticated
 });
 
 export default connect(mapStateToProps, {addItem})(ItemModal);
