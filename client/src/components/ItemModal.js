@@ -28,7 +28,6 @@ class ItemModal extends Component {
     onSubmit = (e) => {
         e.preventDefault();
         const newItem = {
-            id: uuid(),
             name: this.state.name
         }
 
@@ -47,7 +46,7 @@ class ItemModal extends Component {
                 style = {{marginBottom: '2rem'}}
                 onClick = {this.toggle}
                 >
-                    AddItem
+                    Add Item
                 </Button>
 
                 <Modal isOpen = {this.state.modal} toggle = {this.toggle}>
